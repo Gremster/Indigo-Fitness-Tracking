@@ -212,8 +212,8 @@ function startOrbBackground() {
   let centerY = 200;
   let velX = 120;
   let velY = 90;
-  let radius = 170;
-  let fov = 420;
+  const radius = 170;
+  const fov = 420;
   let rotY = 0;
   let rotX = 0.6;
   let lastTime = performance.now();
@@ -223,15 +223,6 @@ function startOrbBackground() {
   function resize() {
     width = canvas.width = window.innerWidth;
     height = canvas.height = window.innerHeight;
-    const minEdge = Math.min(width, height);
-    const isSmall = minEdge <= 430;
-    const smallBase = Math.max(60, Math.round(minEdge * 0.18));
-    const baseRadius = 200;
-    radius = isSmall ? Math.round((baseRadius + smallBase) / 2) : baseRadius;
-    fov = isSmall ? 360 : 460;
-    const speedScale = isSmall ? 0.8 : 1;
-    velX = Math.sign(velX || 1) * 120 * speedScale;
-    velY = Math.sign(velY || 1) * 90 * speedScale;
     centerX = Math.min(Math.max(radius, centerX), width - radius);
     centerY = Math.min(Math.max(radius, centerY), height - radius);
   }
@@ -286,7 +277,7 @@ function startOrbBackground() {
         if (k === 0) ctx.moveTo(pt.x, pt.y);
         else ctx.lineTo(pt.x, pt.y);
       }
-      ctx.strokeStyle = "rgba(240,245,255,0.28)";
+      ctx.strokeStyle = "rgba(255,255,255,0.22)";
       ctx.stroke();
     }
 
@@ -309,13 +300,13 @@ function startOrbBackground() {
         if (k === 0) ctx.moveTo(pt.x, pt.y);
         else ctx.lineTo(pt.x, pt.y);
       }
-      ctx.strokeStyle = "rgba(230,240,255,0.22)";
+      ctx.strokeStyle = "rgba(255,255,255,0.16)";
       ctx.stroke();
     }
 
     ctx.globalCompositeOperation = "source-over";
     const glow = ctx.createRadialGradient(centerX - 40, centerY - 50, 20, centerX - 40, centerY - 50, radius);
-    glow.addColorStop(0, "rgba(240,245,255,0.28)");
+    glow.addColorStop(0, "rgba(255,255,255,0.15)");
     glow.addColorStop(1, "rgba(0,0,0,0)");
     ctx.fillStyle = glow;
     ctx.beginPath();
