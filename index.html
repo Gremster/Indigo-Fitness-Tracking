@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Indigo</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./style.css">
+  <meta name="theme-color" content="#111827" />
+</head>
+<body>
+  <canvas id="bg-orb" class="bg-orb" aria-hidden="true"></canvas>
+  <header class="header">
+    <button class="brand nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" title="Menu">
+      <span class="logo-text">I</span>
+    </button>
+    <nav class="nav" id="primary-nav">
+      <a href="#/dashboard" data-route class="nav-icon-link" title="Dashboard">
+        <span class="nav-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="8" height="8" rx="1.5"/>
+            <rect x="13" y="3" width="8" height="5" rx="1.5"/>
+            <rect x="13" y="10" width="8" height="11" rx="1.5"/>
+            <rect x="3" y="13" width="8" height="8" rx="1.5"/>
+          </svg>
+        </span>
+        <span class="nav-label">Dashboard</span>
+      </a>
+      <a href="#/log-day" data-route class="nav-icon-link" title="Log Day">
+        <span class="nav-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="4" y="3" width="16" height="18" rx="2"/>
+            <path d="M8 3v4M16 3v4"/>
+            <path d="M7 10h10M7 14h6"/>
+            <path d="M16 14l2 2 3-3"/>
+          </svg>
+        </span>
+        <span class="nav-label">Log Day</span>
+      </a>
+      <a href="#/food-lookup" data-route class="nav-icon-link" title="Food Lookup">
+        <span class="nav-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 10.5c0-3 3.6-5 8-5s8 2 8 5"/>
+            <path d="M4 10.5h16"/>
+            <path d="M6 13.5h12"/>
+            <path d="M5 15.5h14"/>
+            <path d="M4 17.5c0 1 1 2 2.5 2h11c1.5 0 2.5-1 2.5-2"/>
+            <path d="M8 9.2l0.8-0.6"/>
+            <path d="M11 9.2l0.8-0.6"/>
+            <path d="M14 9.2l0.8-0.6"/>
+          </svg>
+        </span>
+        <span class="nav-label">Food Lookup</span>
+      </a>
+      <a href="#/calorie-target" data-route class="nav-icon-link" title="Targets">
+        <span class="nav-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="7"/>
+            <circle cx="12" cy="12" r="2"/>
+            <path d="M12 5v2"/>
+            <path d="M12 17v2"/>
+            <path d="M5 12h2"/>
+            <path d="M17 12h2"/>
+          </svg>
+        </span>
+        <span class="nav-label">Targets</span>
+      </a>
+      <a href="#/vitamins" data-route class="nav-icon-link" title="Vitamins & Meds">
+        <span class="nav-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M8 3h8a2 2 0 0 1 2 2v2H6V5a2 2 0 0 1 2-2z"/>
+            <path d="M7 7h10v10a3 3 0 0 1-3 3H10a3 3 0 0 1-3-3V7z"/>
+            <path d="M9 11h6v5H9z"/>
+            <path d="M12 12.5v3"/>
+            <path d="M10.5 14h3"/>
+          </svg>
+        </span>
+        <span class="nav-label">Vitamins &amp; Meds</span>
+      </a>
+      <a href="#/log-training" data-route class="nav-icon-link" title="Training">
+        <span class="nav-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="9" width="3" height="6" rx="1"/>
+            <rect x="6" y="8" width="3" height="8" rx="1"/>
+            <rect x="15" y="8" width="3" height="8" rx="1"/>
+            <rect x="19" y="9" width="3" height="6" rx="1"/>
+            <path d="M9 12h6"/>
+            <path d="M4 18c4.5 0 6.8-1.6 9.8-4.6l3-3 3.8 1.6"/>
+          </svg>
+        </span>
+        <span class="nav-label">Training</span>
+      </a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <a href="#/backup" data-route class="settings-gear" title="Backup">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="3.2"/>
+        <path d="M19.4 15a1.6 1.6 0 0 0 .3 1.7l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.7-.3 1.6 1.6 0 0 0-1 1.4V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.4 1.6 1.6 0 0 0-1.7.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.7 1.6 1.6 0 0 0-1.4-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.4-1 1.6 1.6 0 0 0-.3-1.7l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.7.3h0a1.6 1.6 0 0 0 1-1.4V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.4h0a1.6 1.6 0 0 0 1.7-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.7v0a1.6 1.6 0 0 0 1.4 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.4 1z"/>
+      </svg>
+    </a>
+    <section id="view-dashboard" class="view"></section>
+
+    <section id="view-log-day" class="view hidden">
+      <h1>Log Day</h1>
+      <div class="card form">
+        <label>Date
+          <input type="date" id="day-date" required />
+        </label>
+      </div>
+
+      <form id="form-weight" class="card form">
+        <h2>Weight</h2>
+        <div class="grid">
+          <label>Weight (lb)
+            <input type="number" id="day-weight" step="0.1" min="0" />
+          </label>
+        </div>
+        <button type="submit" class="btn-secondary">Save Weight</button>
+        <div class="muted" id="weight-status"></div>
+      </form>
+
+      <form id="form-day" class="card form">
+        <h2>Calories</h2>
+        <div class="grid">
+          <label>Calories
+            <input type="number" id="day-calories" step="1" min="0" />
+          </label>
+          <label>Protein (g)
+            <input type="number" id="day-protein" step="1" min="0" />
+          </label>
+        </div>
+        <div class="muted" id="target-display"></div>
+        <label>Notes
+          <textarea id="day-notes" rows="3" placeholder="Sleep, stress, anything notable…"></textarea>
+        </label>
+        <button type="submit" class="btn">Save Day</button>
+        <div class="muted" id="day-status"></div>
+      </form>
+
+      <div class="card">
+        <h2>Food Log</h2>
+        <div class="muted" id="food-log-total">No foods added yet.</div>
+        <div id="food-log-list"></div>
+      </div>
+    </section>
+
+    <section id="view-food-lookup" class="view hidden">
+      <h1>Food Lookup</h1>
+      <form id="form-food" class="card form">
+        <label>Search by food name or brand
+          <input type="text" id="food-query" placeholder="Oatmeal, Greek yogurt, Kind bar" required />
+        </label>
+        <button type="submit" class="btn">Search Open Food Facts</button>
+        <div class="muted" id="food-status"></div>
+      </form>
+
+      <div class="muted">Results are per 100g unless a serving is listed.</div>
+      <div id="food-results" class="food-grid"></div>
+
+      <div class="card">
+        <h2>Favorites</h2>
+        <div class="muted" id="favorite-status">No favorites yet.</div>
+        <div id="favorite-list"></div>
+      </div>
+
+      <div class="card">
+        <h2>Previously Logged</h2>
+        <label>Search logged foods
+          <input type="text" id="logged-food-query" placeholder="Protein bar, turkey, oat milk" />
+        </label>
+        <div class="muted" id="logged-food-status">No logged foods yet.</div>
+        <div id="logged-food-list"></div>
+      </div>
+
+      <div class="card">
+        <h2>Homemade Basics</h2>
+        <label>Search homemade foods
+          <input type="text" id="generic-query" placeholder="Chicken breast, rice, eggs" />
+        </label>
+        <div class="muted">All items are per 100g. Pounds and cups use standard conversions when available.</div>
+        <div id="generic-results" class="food-grid"></div>
+      </div>
+
+      <div class="card">
+        <h2>Custom Item</h2>
+        <form id="form-custom-food" class="form">
+          <div class="grid">
+            <label>Name
+              <input type="text" id="custom-food-name" placeholder="Blueberry muffin" required />
+            </label>
+            <label>Brand (optional)
+              <input type="text" id="custom-food-brand" placeholder="Local bakery" />
+            </label>
+            <label>Basis
+              <select id="custom-food-basis">
+                <option value="100g">Per 100g</option>
+                <option value="serving">Per serving</option>
+                <option value="lb">Per lb</option>
+                <option value="oz">Per oz</option>
+                <option value="cup">Per cup</option>
+              </select>
+            </label>
+            <label>Serving label
+              <input type="text" id="custom-food-serving" placeholder="1 scoop (30g)" disabled />
+            </label>
+            <label>Calories per unit
+              <input type="number" id="custom-food-kcal" min="0" step="1" required />
+            </label>
+            <label>Protein per unit (g)
+              <input type="number" id="custom-food-protein" min="0" step="0.1" required />
+            </label>
+            <label>Quantity
+              <input type="number" id="custom-food-qty" min="0" step="1" value="100" />
+            </label>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn">Add to log</button>
+            <button type="button" class="btn-secondary" id="custom-food-favorite">Save as favorite</button>
+          </div>
+          <div class="muted" id="custom-food-status"></div>
+        </form>
+      </div>
+    </section>
+
+    <section id="view-calorie-target" class="view hidden">
+      <h1>Targets</h1>
+      <form id="form-target" class="card form">
+        <div class="grid">
+          <label>Sex
+            <select id="target-sex">
+              <option value="female">Female</option>
+              <option value="male">Male</option>
+              <option value="neutral">Neutral</option>
+            </select>
+          </label>
+          <label>Age
+            <input type="number" id="target-age" min="0" step="1" />
+          </label>
+          <label>Height (in)
+            <input type="number" id="target-height" min="0" step="0.5" />
+          </label>
+          <label>Weight (lb)
+            <input type="number" id="target-weight" min="0" step="0.1" />
+          </label>
+          <label>Activity
+            <select id="target-activity">
+              <option value="1.2">Sedentary</option>
+              <option value="1.375">Lightly active</option>
+              <option value="1.55">Moderately active</option>
+              <option value="1.725">Very active</option>
+              <option value="1.9">Extremely active</option>
+            </select>
+          </label>
+          <label>Daily deficit (cal)
+            <input type="number" id="target-deficit" min="0" step="10" value="0" />
+          </label>
+        </div>
+        <button type="submit" class="btn">Calculate & Save</button>
+        <div class="muted" id="target-status"></div>
+      </form>
+
+      <form id="form-protein-target" class="card form">
+        <h2>Protein Target</h2>
+        <label>Protein target (g/lb)
+          <input type="range" id="target-protein-factor" min="0.8" max="1.5" step="0.05" />
+        </label>
+        <div class="muted">
+          Current: <span id="target-protein-factor-value">1.0</span> g/lb •
+          <span id="target-protein-grams">—</span> g/day
+        </div>
+        <button type="submit" class="btn">Save Protein Target</button>
+        <div class="muted" id="target-protein-status"></div>
+      </form>
+
+      <form id="form-bodyfat" class="card form">
+        <h2>Body Fat Targets</h2>
+        <div class="grid">
+          <label>Estimated body fat %
+            <input type="number" id="bodyfat-current" min="0" max="70" step="0.1" />
+          </label>
+          <label>Target body fat %
+            <input type="number" id="bodyfat-target" min="0" max="70" step="0.1" />
+          </label>
+          <label>Starting weight (lb)
+            <input type="number" id="weight-start" min="0" step="0.1" />
+          </label>
+          <label>Target weight (lb)
+            <input type="number" id="weight-target" min="0" step="0.1" />
+          </label>
+          <label>Target date
+            <input type="date" id="weight-target-date" />
+          </label>
+        </div>
+        <button type="submit" class="btn-secondary">Save Body Fat Targets</button>
+        <div class="muted" id="bodyfat-status"></div>
+      </form>
+    </section>
+
+    <section id="view-vitamins" class="view hidden">
+      <h1>Vitamins & Meds</h1>
+      <form id="form-vitamin" class="card form">
+        <label>Name
+          <input type="text" id="vitamin-name" placeholder="Vitamin D, Magnesium, Creatine" required />
+        </label>
+        <label>Calories (optional)
+          <input type="number" id="vitamin-calories" min="0" step="1" placeholder="0" />
+        </label>
+        <div class="week-grid">
+          <label><input type="checkbox" value="1">Mon</label>
+          <label><input type="checkbox" value="2">Tue</label>
+          <label><input type="checkbox" value="3">Wed</label>
+          <label><input type="checkbox" value="4">Thu</label>
+          <label><input type="checkbox" value="5">Fri</label>
+          <label><input type="checkbox" value="6">Sat</label>
+          <label><input type="checkbox" value="0">Sun</label>
+        </div>
+        <button type="submit" class="btn">Add</button>
+        <div class="muted" id="vitamin-status"></div>
+      </form>
+
+      <div class="card">
+        <h2>Today</h2>
+        <div class="muted" id="vitamin-today-status"></div>
+        <div id="vitamin-today-list"></div>
+      </div>
+
+      <div class="card">
+        <h2>All Items</h2>
+        <div id="vitamin-list"></div>
+      </div>
+    </section>
+
+    <section id="view-log-training" class="view hidden">
+      <h1>Training</h1>
+
+      <h2>Workout Session</h2>
+      <form id="form-workout" class="card form">
+        <div class="grid">
+          <label>Date
+            <input type="date" id="workout-date" required />
+          </label>
+          <label>Workout Type
+            <select id="workout-type" required>
+              <option value="Push A">Push A</option>
+              <option value="Pull A">Pull A</option>
+              <option value="Push B">Push B</option>
+              <option value="Pull B">Pull B</option>
+            </select>
+          </label>
+          <label>Duration (min)
+            <input type="number" id="workout-duration" step="1" min="0" />
+          </label>
+          <label>Session RPE (1–10)
+            <input type="number" id="workout-rpe" step="1" min="1" max="10" required />
+          </label>
+          <label>Hard Sets (near-failure)
+            <input type="number" id="workout-hardsets" step="1" min="0" />
+          </label>
+        </div>
+        <label>Notes
+          <textarea id="workout-notes" rows="3"></textarea>
+        </label>
+
+        <button type="submit" class="btn">Save Workout Session</button>
+        <div class="muted" id="workout-status"></div>
+      </form>
+
+      <div class="card">
+        <h2>Optional: Log Sets (ties to your latest saved workout)</h2>
+        <form id="form-set" class="form">
+          <div class="grid">
+            <label>Exercise
+              <input type="text" id="set-exercise" placeholder="DB Bench Press" required />
+            </label>
+            <label>Weight (lb)
+              <input type="number" id="set-weight" step="0.5" min="0" required />
+            </label>
+            <label>Reps
+              <input type="number" id="set-reps" step="1" min="1" required />
+            </label>
+          </div>
+          <button type="submit" class="btn-secondary">Add Set</button>
+          <div class="muted" id="set-status"></div>
+        </form>
+
+        <div id="latest-workout-summary" class="muted"></div>
+        <div id="set-list"></div>
+      </div>
+
+      <h2>Run</h2>
+      <form id="form-run" class="card form">
+        <div class="grid">
+          <label>Date
+            <input type="date" id="run-date" required />
+          </label>
+          <label>Run Type
+            <select id="run-type" required>
+              <option value="Easy">Easy</option>
+              <option value="Intervals">Intervals</option>
+              <option value="Long">Long</option>
+            </select>
+          </label>
+          <label>Duration (min)
+            <input type="number" id="run-duration" step="1" min="0" required />
+          </label>
+          <label>Distance (mi)
+            <input type="number" id="run-distance" step="0.01" min="0" required />
+          </label>
+        </div>
+        <label>Notes
+          <textarea id="run-notes" rows="3"></textarea>
+        </label>
+        <button type="submit" class="btn">Save Run</button>
+        <div class="muted" id="run-status"></div>
+      </form>
+
+      <div class="card">
+        <h2>Run Log</h2>
+        <div class="muted" id="run-log-status"></div>
+        <div id="run-log-list"></div>
+      </div>
+    </section>
+
+    <section id="view-backup" class="view hidden">
+      <h1>Backup</h1>
+      <div class="card">
+        <button id="btn-export" class="btn">Export JSON Backup</button>
+        <p class="muted">Store this file somewhere safe. It is your “sync.”</p>
+      </div>
+      <div class="card">
+        <label>Import JSON Backup
+          <input type="file" id="file-import" accept="application/json" />
+        </label>
+        <p class="muted">Import will merge/overwrite matching IDs/dates.</p>
+        <div class="muted" id="backup-status"></div>
+      </div>
+      <div class="card">
+        <h2>Performance Log</h2>
+        <div class="muted" id="performance-status">Loading last 7 days…</div>
+        <div id="performance-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Dexie (IndexedDB wrapper) -->
+  <script src="https://cdn.jsdelivr.net/npm/dexie@4/dist/dexie.min.js"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
