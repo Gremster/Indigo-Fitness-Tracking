@@ -211,8 +211,8 @@ function startOrbBackground() {
   let centerY = 200;
   let velX = 120;
   let velY = 90;
-  const radius = 170;
-  const fov = 420;
+  let radius = 170;
+  let fov = 420;
   let rotY = 0;
   let rotX = 0.6;
   let lastTime = performance.now();
@@ -222,6 +222,13 @@ function startOrbBackground() {
   function resize() {
     width = canvas.width = window.innerWidth;
     height = canvas.height = window.innerHeight;
+    const minEdge = Math.min(width, height);
+    const isSmall = minEdge <= 430;
+    radius = isSmall ? Math.max(60, Math.round(minEdge * 0.18)) : 170;
+    fov = isSmall ? 260 : 420;
+    const speedScale = isSmall ? 0.6 : 1;
+    velX = Math.sign(velX || 1) * 120 * speedScale;
+    velY = Math.sign(velY || 1) * 90 * speedScale;
     centerX = Math.min(Math.max(radius, centerX), width - radius);
     centerY = Math.min(Math.max(radius, centerY), height - radius);
   }
@@ -553,7 +560,7 @@ async function renderDashboard() {
   }
 
   views.dashboard.innerHTML = `
-    <h1 style="display:flex; align-items:center; gap:16px">Dashboard<span class="muted" style="font-size:16px; letter-spacing:2px; color:#cfd6ff; text-shadow:0 0 12px rgba(120,134,255,0.6)">— ${prettyDate(today)}</span></h1>
+    <h1 class="dashboard-title">Dashboard<span class="dashboard-date">— ${prettyDate(today)}</span></h1>
 
     <div class="card">
       <div class="kpi-grid" data-grid-id="overview">
