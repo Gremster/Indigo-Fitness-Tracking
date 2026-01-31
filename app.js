@@ -286,7 +286,7 @@ function startOrbBackground() {
         if (k === 0) ctx.moveTo(pt.x, pt.y);
         else ctx.lineTo(pt.x, pt.y);
       }
-      ctx.strokeStyle = "rgba(255,255,255,0.22)";
+      ctx.strokeStyle = "rgba(240,245,255,0.28)";
       ctx.stroke();
     }
 
@@ -309,26 +309,17 @@ function startOrbBackground() {
         if (k === 0) ctx.moveTo(pt.x, pt.y);
         else ctx.lineTo(pt.x, pt.y);
       }
-      ctx.strokeStyle = "rgba(255,255,255,0.16)";
+      ctx.strokeStyle = "rgba(230,240,255,0.22)";
       ctx.stroke();
     }
 
     ctx.globalCompositeOperation = "source-over";
     const glow = ctx.createRadialGradient(centerX - 40, centerY - 50, 20, centerX - 40, centerY - 50, radius);
-    glow.addColorStop(0, "rgba(255,255,255,0.15)");
+    glow.addColorStop(0, "rgba(240,245,255,0.28)");
     glow.addColorStop(1, "rgba(0,0,0,0)");
     ctx.fillStyle = glow;
     ctx.beginPath();
     ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-    ctx.fill();
-
-    const bloom = ctx.createRadialGradient(centerX, centerY, radius * 0.4, centerX, centerY, radius * 1.6);
-    bloom.addColorStop(0, "rgba(140,154,255,0.18)");
-    bloom.addColorStop(0.5, "rgba(120,134,255,0.12)");
-    bloom.addColorStop(1, "rgba(0,0,0,0)");
-    ctx.fillStyle = bloom;
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, radius * 1.6, 0, Math.PI * 2);
     ctx.fill();
   }
 
