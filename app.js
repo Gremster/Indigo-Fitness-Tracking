@@ -18,6 +18,7 @@ function setNavOpen(isOpen) {
   const toggle = document.getElementById("nav-toggle");
   if (!header || !toggle) return;
   header.classList.toggle("nav-open", isOpen);
+  document.body.classList.toggle("nav-open", isOpen);
   toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
 }
 
@@ -224,9 +225,10 @@ function startOrbBackground() {
     height = canvas.height = window.innerHeight;
     const minEdge = Math.min(width, height);
     const isSmall = minEdge <= 430;
-    radius = isSmall ? Math.max(60, Math.round(minEdge * 0.18)) : 170;
-    fov = isSmall ? 260 : 420;
-    const speedScale = isSmall ? 0.6 : 1;
+    const smallBase = Math.max(60, Math.round(minEdge * 0.18));
+    radius = isSmall ? Math.round((170 + smallBase) / 2) : 170;
+    fov = isSmall ? 340 : 420;
+    const speedScale = isSmall ? 0.8 : 1;
     velX = Math.sign(velX || 1) * 120 * speedScale;
     velY = Math.sign(velY || 1) * 90 * speedScale;
     centerX = Math.min(Math.max(radius, centerX), width - radius);
@@ -394,6 +396,16 @@ function ensureLogDayDateIsCurrent() {
   if (!input.value || input.value < today) input.value = today;
 }
 
+function updateKpiValueSizing(container) {
+  if (!container) return;
+  container.querySelectorAll(".kpi .value").forEach(el => {
+    const text = el.textContent?.trim() || "";
+    if (!el.classList.contains("value-compact")) {
+      el.classList.toggle("value-compact", text.length > 18);
+    }
+  });
+}
+
 async function renderDashboard() {
   const daily = await db.daily.orderBy("date").toArray();
   const runs = await db.runs.orderBy("date").toArray();
@@ -505,6 +517,12 @@ async function renderDashboard() {
     : overCalories > 0 ? "kpi-danger" : "kpi-success";
   const calorieDirectionClass = overCalories !== null && overCalories <= 0 ? "kpi-meter-under" : "";
   const todayCaloriesText = todayCalories ? `${Math.round(todayCalories)} cal` : "No intake logged";
+  const todayIntakeValueClass = todayCaloriesText === "No intake logged"
+    ? "value-wrap value-compact"
+    : "value-wrap";
+  const vitaminValueClass = vitaminStatusText === "None scheduled"
+    ? "value-wrap value-compact"
+    : "";
   const bodyfat = getBodyfatTargets();
   const bodyfatCurrentText = bodyfat.current !== null ? `${bodyfat.current}%` : "—";
   const bodyfatTargetText = bodyfat.target !== null ? `${bodyfat.target}%` : "—";
@@ -560,7 +578,7 @@ async function renderDashboard() {
   }
 
   views.dashboard.innerHTML = `
-    <h1 class="dashboard-title">Dashboard<span class="dashboard-date">— ${prettyDate(today)}</span></h1>
+    <h1 class="dashboard-title">Dashboard<span class="dashboard-date">${prettyDate(today)}</span></h1>
 
     <div class="card">
       <div class="kpi-grid" data-grid-id="overview">
@@ -588,7 +606,7 @@ async function renderDashboard() {
         </div>
         <div class="kpi" data-kpi-id="today-intake" draggable="true">
           <div class="label">Today's Intake</div>
-          <div class="value">${todayCaloriesText}</div>
+          <div class="value ${todayIntakeValueClass}">${todayCaloriesText}</div>
         </div>
         <div class="kpi" data-kpi-id="bodyfat-current" draggable="true">
           <div class="label">Body Fat (Est.)</div>
@@ -615,7 +633,7 @@ async function renderDashboard() {
       <div class="kpi-grid" data-grid-id="notes">
         <div class="kpi ${vitaminStatusClass}" data-kpi-id="vitamins" draggable="true">
           <div class="label">Vitamins & Meds</div>
-          <div class="value">${vitaminStatusText}</div>
+          <div class="value ${vitaminValueClass}">${vitaminStatusText}</div>
         </div>
         ${hasPaceData ? `
         <div class="kpi ${paceClass}" data-kpi-id="pace" draggable="true">
@@ -835,6 +853,7 @@ async function renderDashboard() {
   }
   rec.sort((a,b) => a.date < b.date ? 1 : -1);
 
+  updateKpiValueSizing(views.dashboard);
   initDashboardDrag();
 }
 
