@@ -226,8 +226,9 @@ function startOrbBackground() {
     const minEdge = Math.min(width, height);
     const isSmall = minEdge <= 430;
     const smallBase = Math.max(60, Math.round(minEdge * 0.18));
-    radius = isSmall ? Math.round((170 + smallBase) / 2) : 170;
-    fov = isSmall ? 340 : 420;
+    const baseRadius = 200;
+    radius = isSmall ? Math.round((baseRadius + smallBase) / 2) : baseRadius;
+    fov = isSmall ? 360 : 460;
     const speedScale = isSmall ? 0.8 : 1;
     velX = Math.sign(velX || 1) * 120 * speedScale;
     velY = Math.sign(velY || 1) * 90 * speedScale;
@@ -319,6 +320,15 @@ function startOrbBackground() {
     ctx.fillStyle = glow;
     ctx.beginPath();
     ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+    ctx.fill();
+
+    const bloom = ctx.createRadialGradient(centerX, centerY, radius * 0.4, centerX, centerY, radius * 1.6);
+    bloom.addColorStop(0, "rgba(140,154,255,0.18)");
+    bloom.addColorStop(0.5, "rgba(120,134,255,0.12)");
+    bloom.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.fillStyle = bloom;
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius * 1.6, 0, Math.PI * 2);
     ctx.fill();
   }
 
