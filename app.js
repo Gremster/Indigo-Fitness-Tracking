@@ -558,7 +558,7 @@ async function renderDashboard() {
             : `Behind (${(requiredWeeklyLoss - actualWeeklyLoss).toFixed(1)} lb/wk)`
           : "Need two weeks of weigh-ins";
   const paceClass = hasPaceData ? (onTrack ? "kpi-success" : "kpi-warning") : "";
-  const avgLineColor = hasPaceData ? (onTrack ? "#8b9bff" : "#ff6b8a") : "#6f7dff";
+  const avgLineColor = hasPaceData ? (onTrack ? "#d8cfbf" : "#a99f8b") : "#c2b7a2";
 
   let weeklyDelta = null;
   if (chartAvg.length >= 8) {
@@ -570,9 +570,10 @@ async function renderDashboard() {
   }
 
   views.dashboard.innerHTML = `
-    <h1 class="dashboard-title">Dashboard<span class="dashboard-date">${prettyDate(today)}</span></h1>
+    <h1 class="dashboard-title"><span class="dashboard-name">Indigo</span></h1>
 
     <div class="card">
+      <h2>${new Date(today + "T12:00:00").toLocaleDateString("en-US", { weekday: "long" })}</h2>
       <div class="kpi-grid" data-grid-id="overview">
         <div class="kpi" data-kpi-id="avg-calories" draggable="true"><div class="label">Avg Calories</div><div class="value">${fmt(calAvg,0)}</div></div>
         <div class="kpi" data-kpi-id="target-calories" draggable="true"><div class="label">Target Calories</div><div class="value">${target ? Math.round(target) : "—"}</div></div>
@@ -582,21 +583,21 @@ async function renderDashboard() {
     </div>
 
     <div class="card">
-      <h2>Today's Targets</h2>
+      <h2>Targets</h2>
       <div class="kpi-grid" data-grid-id="today-targets">
-        <div class="kpi" data-kpi-id="protein-target" draggable="true">
+        <div class="kpi kpi-wide" data-kpi-id="protein-target" draggable="true">
           <div class="label">Protein Target (${proteinFactor.toFixed(2)}g/lb)</div>
           <div class="value">${proteinTargetText}</div>
         </div>
-        <div class="kpi kpi-meter ${proteinStatusClass} ${proteinMeterClass} ${proteinDirectionClass}" data-kpi-id="protein-status" draggable="true" style="--kpi-fill:${proteinMeterPercent.toFixed(0)}%;">
+        <div class="kpi kpi-wide kpi-meter ${proteinStatusClass} ${proteinMeterClass} ${proteinDirectionClass}" data-kpi-id="protein-status" draggable="true" style="--kpi-fill:${proteinMeterPercent.toFixed(0)}%;">
           <div class="label">Protein Status</div>
           <div class="value">${proteinStatusText}</div>
         </div>
-        <div class="kpi kpi-meter ${calorieStatusClass} ${calorieMeterClass} ${calorieDirectionClass}" data-kpi-id="calorie-status" draggable="true" style="--kpi-fill:${calorieMeterPercent.toFixed(0)}%;">
+        <div class="kpi kpi-wide kpi-meter ${calorieStatusClass} ${calorieMeterClass} ${calorieDirectionClass}" data-kpi-id="calorie-status" draggable="true" style="--kpi-fill:${calorieMeterPercent.toFixed(0)}%;">
           <div class="label">Calorie Status</div>
           <div class="value">${calorieStatusText}</div>
         </div>
-        <div class="kpi" data-kpi-id="today-intake" draggable="true">
+        <div class="kpi kpi-wide" data-kpi-id="today-intake" draggable="true">
           <div class="label">Today's Intake</div>
           <div class="value ${todayIntakeValueClass}">${todayCaloriesText}</div>
         </div>
@@ -643,10 +644,10 @@ async function renderDashboard() {
     <div class="card">
       <div class="card-header">
         <h2>Weight Trend</h2>
-        <button class="btn-secondary btn-sm" id="weight-view-toggle">${chartMode === "7day" ? "Show full" : "Last 7 days"}</button>
       </div>
       <canvas id="weightChart" height="130"></canvas>
       <div class="muted">Tip: log weight in the morning for clean trends.</div>
+      <button class="btn-secondary btn-sm" id="weight-view-toggle">${chartMode === "7day" ? "Show full" : "Last 7 days"}</button>
     </div>
 
     
@@ -669,20 +670,20 @@ async function renderDashboard() {
             label: "Weight",
             data: chartWeights,
             spanGaps: true,
-            pointBackgroundColor: "#6f7dff",
-            pointBorderColor: "rgba(120,134,255,0.6)",
+            pointBackgroundColor: "#c2b7a2",
+            pointBorderColor: "rgba(194,183,162,0.6)",
             pointBorderWidth: 2,
-            borderColor: "#6f7dff",
+            borderColor: "#c2b7a2",
             segment: weightTarget && chartMode !== "7day" ? {
               borderColor: (ctx) => {
                 const v0 = ctx.p0.parsed?.y;
                 const v1 = ctx.p1.parsed?.y;
-                if (!Number.isFinite(v0) || !Number.isFinite(v1)) return "#6f7dff";
+                if (!Number.isFinite(v0) || !Number.isFinite(v1)) return "#c2b7a2";
                 const d0 = Math.abs(v0 - weightTarget);
                 const d1 = Math.abs(v1 - weightTarget);
-                if (d1 < d0) return "#8b9bff";
-                if (d1 > d0) return "#ff6b8a";
-                return "#6f7dff";
+                if (d1 < d0) return "#d8cfbf";
+                if (d1 > d0) return "#a99f8b";
+                return "#c2b7a2";
               }
             } : undefined
           },
@@ -705,7 +706,7 @@ async function renderDashboard() {
             spanGaps: true,
             borderDash: [6, 6],
             pointRadius: 0,
-            borderColor: "rgba(176,186,255,0.45)"
+            borderColor: "rgba(214,203,185,0.45)"
           }] : []),
           ...(weightTarget && targetDate && Number.isFinite(actualWeeklyLoss) && latestWeightDate && chartMode !== "7day" ? [{
             label: "Projection",
@@ -718,7 +719,7 @@ async function renderDashboard() {
             }),
             spanGaps: true,
             pointRadius: 0,
-            borderColor: onTrack ? "rgba(139,155,255,0.7)" : "rgba(255,107,138,0.7)"
+            borderColor: onTrack ? "rgba(216,207,191,0.7)" : "rgba(169,159,139,0.7)"
           }] : []),
           ...(weightTarget && chartMode !== "7day" ? [{
             label: "Target",
@@ -730,8 +731,8 @@ async function renderDashboard() {
             showLine: false,
             pointRadius: 6,
             pointHoverRadius: 7,
-            pointBackgroundColor: "#8b9bff",
-            pointBorderColor: "rgba(139,155,255,0.7)",
+            pointBackgroundColor: "#d8cfbf",
+            pointBorderColor: "rgba(216,207,191,0.7)",
             pointBorderWidth: 2
           }] : [])
         ]
@@ -747,9 +748,9 @@ async function renderDashboard() {
           if (!point) return;
           const { ctx } = chartInstance;
           ctx.save();
-          ctx.shadowColor = "rgba(120,134,255,0.8)";
+          ctx.shadowColor = "rgba(216,207,191,0.7)";
           ctx.shadowBlur = 18;
-          ctx.fillStyle = "rgba(120,134,255,0.6)";
+          ctx.fillStyle = "rgba(216,207,191,0.5)";
           ctx.beginPath();
           ctx.arc(point.x, point.y, radius + 3, 0, Math.PI * 2);
           ctx.fill();
@@ -770,13 +771,13 @@ async function renderDashboard() {
           if (Number.isFinite(weeklyDelta)) {
             const sign = weeklyDelta > 0 ? "+" : "";
             const text = `7d: ${sign}${weeklyDelta.toFixed(1)} lb`;
-            ctx.fillStyle = weeklyDelta <= 0 ? "#8b9bff" : "#ff6b8a";
+            ctx.fillStyle = weeklyDelta <= 0 ? "#d8cfbf" : "#a99f8b";
             ctx.fillText(text, point.x + 8, point.y + offsetY);
             offsetY -= 16;
           }
           if (onTrack !== null) {
             const text = onTrack ? "On track" : "Behind pace";
-            ctx.fillStyle = onTrack ? "#8b9bff" : "#ff6b8a";
+            ctx.fillStyle = onTrack ? "#d8cfbf" : "#a99f8b";
             ctx.fillText(text, point.x + 8, point.y + offsetY);
           }
           ctx.restore();
@@ -789,7 +790,7 @@ async function renderDashboard() {
         scales: {
           x: {
             ticks: {
-              color: "#aab0d6",
+              color: "#c8c1b6",
               display: true,
               autoSkip: skipTicks,
               maxTicksLimit: 14,
@@ -800,9 +801,9 @@ async function renderDashboard() {
                 return shortDateLabel(label);
               }
             },
-            grid: { color: "#2a3148" }
+            grid: { color: "#2b2926" }
           },
-          y: { ticks: { color: "#aab0d6" }, grid: { color: "#2a3148" } }
+          y: { ticks: { color: "#c8c1b6" }, grid: { color: "#2b2926" } }
         }
       }
     });
